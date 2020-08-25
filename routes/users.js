@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { User, validateUser } = require("../models/user");
+const { User, validateUser, validateUserObject } = require("../models/user");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
@@ -38,9 +38,9 @@ router.post("/create", async (req, res) => {
 
 // updates all user properties except password  and those that are set by the server
 router.post("/edit", auth, async (req, res) => {
-    // req.body = { "user": userObject }
+    // req.body is expected to at least have { "user": userObject }
     // userObject = { "_id": ObjectID, "username": String, "password": "String" }
-    const { error } = validateUser(req.body.user);
+    const { error } = validateUserObject(req.body.user);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
@@ -62,9 +62,9 @@ router.post("/edit", auth, async (req, res) => {
 
 // updates user password
 router.post("/change_password", auth, async (req, res) => {
-    // req.body = { "user": userObject }
+    // req.body is expected to at least have { "user": userObject }
     // userObject = { "_id": ObjectID, "username": String, "password": "String" }
-    const { error } = validateUser(req.body.user);
+    const { error } = validateUserObject(req.body.user);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
@@ -88,9 +88,9 @@ router.post("/change_password", auth, async (req, res) => {
 
 // deletes user
 router.post("/delete", auth, async (req, res) => {
-    // req.body = { "user": userObject }
+    // req.body is expected to at least have { "user": userObject }
     // userObject = { "_id": ObjectID, "username": String, "password": "String" }
-    const { error } = validateUser(req.body.user);
+    const { error } = validateUserObject(req.body.user);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }

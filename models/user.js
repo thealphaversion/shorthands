@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
         maxlength: 96,
     },
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
+    // an array of organization ids
     organizations: { type: Array, default: [] },
 });
 
@@ -31,5 +32,16 @@ const validateUser = (user) => {
     return schema.validate(user);
 };
 
+const validateUserObject = (user) => {
+    const schema = Joi.object({
+        _id: Joi.objectId().required(),
+        name: Joi.string().min(1).max(96).trim().required(),
+        password: Joi.string().min(4).max(1024).trim().required(),
+    });
+
+    return schema.validate(user);
+};
+
 exports.User = User;
 exports.validateUser = validateUser;
+exports.validateUserObject = validateUserObject;

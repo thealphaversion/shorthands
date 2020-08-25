@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 
 const organizationSchema = new mongoose.Schema({
     name: {
@@ -27,7 +29,7 @@ const validateOrganization = (organization) => {
         password: Joi.string().min(4).max(1024).required(),
     });
 
-    return schema.validate(organization, schema);
+    return schema.validate(organization);
 };
 
 const validateOrganizationObject = (organization) => {

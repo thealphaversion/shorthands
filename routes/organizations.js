@@ -22,7 +22,7 @@ router.post("/create", async (req, res) => {
     }
 
     let organization = await Organization.findOne({
-        username: req.body.name,
+        name: req.body.name,
     });
     if (organization) {
         return res.status(400).send("Organization already registered.");
@@ -32,7 +32,7 @@ router.post("/create", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     organization = new Organization({
-        username: req.body.name,
+        name: req.body.name,
         password: hashedPassword,
     });
 
@@ -41,7 +41,7 @@ router.post("/create", async (req, res) => {
     const token = organization.generateAuthToken();
     res.status(200)
         .header("x-auth-token", token)
-        .send(organization.name + "created successfully!");
+        .send(organization.name + " created successfully!");
 });
 
 // updates all organization properties except password and those that are set by the server

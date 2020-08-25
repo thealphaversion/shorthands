@@ -24,17 +24,31 @@ const validateOrganization = (req) => {
     return schema.validate(req);
 };
 
-router.post("/user", async (req, res) => {
+/**
+ * /api/auth/users  -> POST
+ * authenticates (log in) a user
+ *
+ * request body should have a property username and password
+ *
+ * expected req.body = { "username": username, "password": password }
+ *
+ * response returns a JSON Web Token
+ * client should store it
+ */
+router.post("/users", async (req, res) => {
+    // checks if request body is as expected
     const { error } = validateUser(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
 
+    // finds user using the username
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
         return res.status(400).send("Invalid username or password");
     }
 
+    // checking if password is correct
     const validatePassword = await bcrypt.compare(
         req.body.password,
         user.password
@@ -44,22 +58,37 @@ router.post("/user", async (req, res) => {
         return res.status(400).send("Invalid username or password");
     }
 
+    // generates JSON Web Token
     const token = user.generateAuthToken();
 
     return res.status(200).send(token);
 });
 
-router.post("/organization", async (req, res) => {
+/**
+ * /api/auth/organizations  -> POST
+ * authenticates (log in) an organization
+ *
+ * request body should have a property name and password
+ *
+ * expected req.body = { "name": name, "password": password }
+ *
+ * response returns a JSON Web Token
+ * client should store it
+ */
+router.post("/organizations", async (req, res) => {
+    // checks if request body is as expected
     const { error } = validateOrganization(req.body);
     if (error) {
         return res.status(400).send(error.details[0].message);
     }
 
+    // finds organization using the name
     const organization = await Organization.findOne({ name: req.body.name });
     if (!organization) {
         return res.status(400).send("Invalid name or password");
     }
 
+    // checking if password is correct
     const validatePassword = await bcrypt.compare(
         req.body.password,
         organization.password
@@ -69,6 +98,7 @@ router.post("/organization", async (req, res) => {
         return res.status(400).send("Invalid username or password");
     }
 
+    // generates JSON Web Token
     const token = organization.generateAuthToken();
 
     return res.status(200).send(token);
