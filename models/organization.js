@@ -1,3 +1,16 @@
+/**
+ * organization model
+ * defines the properties of a short, and methods associated with it
+ * defines a schema to validate an organization
+ * defines methods to validate an organization data from client
+ *
+ * an organization has properties name, password, users and shorts
+ * name is a string that will be used to identify name
+ * password is a string
+ * users is an array that contains user objects
+ * shorts is an array that contains short objects
+ */
+
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const config = require("config");

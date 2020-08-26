@@ -1,3 +1,15 @@
+/**
+ * user model
+ * defines the properties of a user, and methods associated with it
+ * defines a schema to validate a user
+ * defines methods to validate a user data from client
+ *
+ * a user has properties username, password and organizations
+ * username is a string that will be used to identify username
+ * password is a string
+ * organizations is an array that contains organization objects
+ */
+
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const config = require("config");
@@ -12,7 +24,6 @@ const userSchema = new mongoose.Schema({
         maxlength: 96,
     },
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
-    // an array of organization ids
     organizations: { type: Array, default: [] },
 });
 
@@ -34,4 +45,3 @@ const validateUser = (user) => {
 
 exports.User = User;
 exports.validateUser = validateUser;
-exports.validateUserObject = validateUserObject;
