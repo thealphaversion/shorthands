@@ -26,7 +26,6 @@ const organizationSchema = new mongoose.Schema({
     },
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
     users: { type: Array, default: [] },
-    shorts: { type: Array, default: [] },
 });
 
 organizationSchema.methods.generateAuthToken = function () {

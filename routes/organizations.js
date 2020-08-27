@@ -1,10 +1,22 @@
+/**
+ * this module has the following routes
+ * /api/organizations/current                           -> GET      -> gets the current organization
+ * /api/organizations/create                            -> POST     -> creates a new organization
+ * /api/organizations/edit                              -> POST     -> updates name of an organization
+ * /api/organizations/change_password                   -> POST     -> updates password of an organization
+ * /api/organizations/delete                            -> POST     -> deletes an organization
+ */
+
+// package imports
 const express = require("express");
 const bcrypt = require("bcrypt");
+
+// module imports
+const auth = require("../middleware/auth");
 const {
     Organization,
     validateOrganization,
 } = require("../models/organization");
-const auth = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -33,7 +45,7 @@ router.get("/current", auth, async (req, res) => {
  *
  * expected req.body = { "name": name, "password": password }
  *
- * created invitations have the properties users and shorts set to empty arrays
+ * created organizations have the property users set to empty arrays
  *
  * returns a JSON Web Token in the response header
  * should be saved by the client
@@ -165,7 +177,7 @@ router.post("/change_password", auth, async (req, res) => {
  * if password matches, organization will be deleted
  * otherwise return status code 400 with message password incorrect.
  *
- * organization can only be an organization
+ * organization can only be deleted by an organization
  */
 router.post("/delete", auth, async (req, res) => {
     // validates if req.body is as expected

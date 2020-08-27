@@ -1,7 +1,19 @@
+/**
+ * this module has the following routes
+ * /api/users/current                           -> GET      -> gets the current user
+ * /api/users/create                            -> POST     -> creates a new user
+ * /api/users/edit                              -> POST     -> updates username of a user
+ * /api/users/change_password                   -> POST     -> updates password of a user
+ * /api/users/delete                            -> POST     -> deletes an user
+ */
+
+// package imports
 const express = require("express");
 const bcrypt = require("bcrypt");
-const { User, validateUser } = require("../models/user");
+
+// module imports
 const auth = require("../middleware/auth");
+const { User, validateUser } = require("../models/user");
 
 const router = express.Router();
 
@@ -22,13 +34,13 @@ router.get("/current", auth, async (req, res) => {
 
 /**
  * /api/users/create  -> POST
- * creates a new organization
+ * creates a new user
  *
- * request body should have properties name and password
+ * request body should have properties username and password
  *
  * expected req.body = { "username": username, "password": password }
  *
- * created invitations have the property organizations set to empty arrays
+ * created users have the property organizations set to empty arrays
  *
  * returns a JSON Web Token in the response header
  * should be saved by the client

@@ -1,6 +1,15 @@
+/**
+ * this module has the following routes
+ * /api/auth/users                              -> POST     -> authenticates (logs in) a user
+ * /api/auth/organizations                      -> POST     -> authenticates (logs in) an organization
+ */
+
+// package imports
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+
+// module imports
 const { User } = require("../models/user");
 const { Organization } = require("../models/organization");
 
@@ -26,7 +35,7 @@ const validateOrganization = (req) => {
 
 /**
  * /api/auth/users  -> POST
- * authenticates (log in) a user
+ * authenticates (logs in) a user
  *
  * request body should have a property username and password
  *
@@ -66,7 +75,7 @@ router.post("/users", async (req, res) => {
 
 /**
  * /api/auth/organizations  -> POST
- * authenticates (log in) an organization
+ * authenticates (logs in) an organization
  *
  * request body should have a property name and password
  *

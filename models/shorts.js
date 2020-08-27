@@ -15,6 +15,10 @@ const mongoose = require("mongoose");
 const Joi = require("joi");
 
 const shortsSchema = new mongoose.Schema({
+    organization_id: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+    },
     shorthand: {
         type: String,
         required: true,
@@ -34,8 +38,16 @@ const validateShort = (shorthand) => {
     const schema = Joi.object({
         shorthand: Joi.string().required(),
         description: Joi.string().min(5).required(),
-        upvotes: Joi.number().min(0),
-        downvotes: Joi.number().min(0),
+    });
+
+    return schema.validate(shorthand);
+};
+
+const validateShortObject = (shorthand) => {
+    const schema = Joi.object({
+        short_id: Joi.objectId().required(),
+        shorthand: Joi.string().required(),
+        description: Joi.string().min(5).required(),
     });
 
     return schema.validate(shorthand);
@@ -43,3 +55,4 @@ const validateShort = (shorthand) => {
 
 exports.Short = Short;
 exports.validateShort = validateShort;
+exports.validateShortObject = validateShortObject;

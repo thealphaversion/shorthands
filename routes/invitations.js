@@ -9,7 +9,13 @@
  * /api/invitations/organization/get_invites/:status    -> GET      -> gets all invitations for an organization filtered by status
  */
 
+// package imports
 const express = require("express");
+const mongoose = require("mongoose");
+const Fawn = require("fawn");
+
+// module imports
+const auth = require("../middleware/auth");
 const {
     Invitation,
     validateInvitation,
@@ -17,9 +23,6 @@ const {
 } = require("../models/invitation");
 const { Organization } = require("../models/organization");
 const { User } = require("../models/user");
-const auth = require("../middleware/auth");
-const Fawn = require("fawn");
-const mongoose = require("mongoose");
 
 const router = express.Router();
 Fawn.init(mongoose);
