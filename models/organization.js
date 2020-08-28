@@ -46,4 +46,3 @@ const validateOrganization = (organization) => {
 
 exports.Organization = Organization;
 exports.validateOrganization = validateOrganization;
-exports.validateOrganizationObject = validateOrganizationObject;

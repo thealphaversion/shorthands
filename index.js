@@ -9,6 +9,8 @@ const users = require("./routes/users");
 const organization = require("./routes/organizations");
 const auth = require("./routes/authentication");
 const invitations = require("./routes/invitations");
+const shorts = require("./routes/shorts");
+const search = require("./routes/users");
 
 // this helps us validate mongo db object ids
 Joi.objectId = require("joi-objectid")(Joi);
@@ -50,6 +52,12 @@ app.use("/api/organizations", organization);
 
 // all api endpoints that start with /api/invitations are handled by this
 app.use("/api/invitations", invitations);
+
+// all api endpoints that start with /api/shorts are handled by this
+app.use("/api/shorts", shorts);
+
+// all api endpoints that start with /api/search are handled by this
+app.use("/api/shorts", search);
 
 // start server
 app.listen(3000, () => console.log("Server started on port 3000"));
