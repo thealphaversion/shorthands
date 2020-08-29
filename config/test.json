@@ -1,0 +1,4 @@
+{
+    "jwtPrivateKey": "test_key",
+    "db": "mongodb://localhost/shorthand_tests"
+}

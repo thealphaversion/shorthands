@@ -7,7 +7,7 @@ const winston = require("winston");
 const app = express();
 
 // logging and unhandled error handling
-require("./startup/logs");
+require("./startup/logs")();
 
 // declaring routes
 require("./startup/routes")(app);
@@ -26,3 +26,5 @@ const port = process.env.PORT || 3000;
 const server = app.listen(port, () =>
     winston.info(`Listening on port ${port}...`)
 );
+
+module.exports = server;

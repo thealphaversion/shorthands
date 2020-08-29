@@ -28,7 +28,7 @@ const router = express.Router();
  * returns the logged in user object without its password
  */
 router.get("/current", auth, async (req, res) => {
-    const user = User.findById(req.user._id).select({ password: -1 });
+    const user = await User.findById(req.user._id).select({ username: 1 });
     res.send(user);
 });
 
