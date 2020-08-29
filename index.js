@@ -1,63 +1,28 @@
 // package imports
 const express = require("express");
-const mongoose = require("mongoose");
-const Joi = require("joi");
-const config = require("config");
-
-// route imports
-const users = require("./routes/users");
-const organization = require("./routes/organizations");
-const auth = require("./routes/authentication");
-const invitations = require("./routes/invitations");
-const shorts = require("./routes/shorts");
-const search = require("./routes/users");
-
-// this helps us validate mongo db object ids
-Joi.objectId = require("joi-objectid")(Joi);
+const winston = require("winston");
 
 // the express application that we'll use to
 // construct the request, response pipeline
 const app = express();
 
-// if the private key is not defined in the env, shut doen the server
-if (!config.get("jwtPrivateKey")) {
-    console.error("FATAL ERROR: No key defined.");
-    process.exit(1);
-}
+// logging and unhandled error handling
+require("./startup/logs");
+
+// declaring routes
+require("./startup/routes")(app);
 
 // connecting to mongodb
-mongoose
-    .connect("mongodb://localhost/shorts", {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() => {
-        console.log("Connected to db");
-    })
-    .catch((err) => {
-        console.log("Database error: " + err);
-    });
+require("./startup/db")();
 
-// to decode json data in request.body
-app.use(express.json());
+// if the private key is not defined in the env, shut doen the server
+require("./startup/config")();
 
-// all api endpoints that start with /api/auth are handled by this
-app.use("/api/auth", auth);
-
-// all api endpoints that start with /api/users are handled by this
-app.use("/api/users", users);
-
-// all api endpoints that start with /api/organization are handled by this
-app.use("/api/organizations", organization);
-
-// all api endpoints that start with /api/invitations are handled by this
-app.use("/api/invitations", invitations);
-
-// all api endpoints that start with /api/shorts are handled by this
-app.use("/api/shorts", shorts);
-
-// all api endpoints that start with /api/search are handled by this
-app.use("/api/shorts", search);
+// this helps us validate mongo db object ids
+require("./startup/validate")();
 
 // start server
-app.listen(3000, () => console.log("Server started on port 3000"));
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () =>
+    winston.info(`Listening on port ${port}...`)
+);
