@@ -32,9 +32,9 @@ const router = express.Router();
  */
 router.get("/current", auth, async (req, res) => {
     const organization = Organization.findById(req.user._id).select({
-        password: -1,
+        name: 1,
     });
-    res.send(organization);
+    res.status(200).send(organization);
 });
 
 /**

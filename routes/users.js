@@ -71,7 +71,7 @@ router.post("/create", async (req, res) => {
 
     const token = user.generateAuthToken();
 
-    res.header("x-auth-token", token).send(user.username);
+    res.status(200).header("x-auth-token", token).send(user.username);
 });
 
 /**
@@ -185,7 +185,7 @@ router.post("/delete", auth, async (req, res) => {
     // checking if password is correct
     const validatePassword = await bcrypt.compare(
         req.body.password,
-        organization.password
+        user.password
     );
 
     if (!validatePassword) {
