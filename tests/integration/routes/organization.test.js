@@ -29,18 +29,19 @@ describe("/api/organizations", () => {
      * Only one test case
      * the test should return the current organization
      */
+    beforeEach(() => {
+        // start server connection
+        server = require("../../../index");
+    });
+
+    afterEach(async () => {
+        // clear the database
+        await Organization.collection.remove({});
+        // close server connection
+        await server.close();
+    });
+
     describe("GET /current", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            await Organization.collection.remove({});
-            // close server connection
-            await server.close();
-        });
-
         // expected correct request
         const exec = async () => {
             return await request(server)
@@ -61,8 +62,6 @@ describe("/api/organizations", () => {
 
             // try to get the test organization
             const res = await exec();
-
-            console.log(res.body);
 
             expect(res.status).toBe(200);
             expect(res.body).toMatchObject({

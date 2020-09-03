@@ -31,7 +31,7 @@ const router = express.Router();
  * returns the logged in organization object without its password
  */
 router.get("/current", auth, async (req, res) => {
-    const organization = Organization.findById(req.user._id).select({
+    const organization = await Organization.findById(req.user._id).select({
         name: 1,
     });
     res.status(200).send(organization);

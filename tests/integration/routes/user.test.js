@@ -29,18 +29,21 @@ describe("/api/users", () => {
      * Only one test case
      * the test should return the current user
      */
+
+    beforeEach(() => {
+        // start server connection
+        server = require("../../../index");
+    });
+
+    afterEach(async () => {
+        // clear the database
+        await User.collection.remove({});
+
+        // close server connection
+        await server.close();
+    });
+
     describe("GET /current", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            await User.collection.remove({});
-            // close server connection
-            await server.close();
-        });
-
         // expected correct request
         const exec = async () => {
             return await request(server)
@@ -78,19 +81,6 @@ describe("/api/users", () => {
      * 3. test if the user is created
      */
     describe("POST /create", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            // clear the database
-            await User.collection.remove({});
-
-            // close server connection
-            await server.close();
-        });
-
         test("should return status 400 if req body is invalid", async () => {
             // expected correct request
             const exec = async () => {
@@ -154,19 +144,6 @@ describe("/api/users", () => {
      * 3. test if the user is edited
      */
     describe("POST /edit", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            // clear the database
-            await User.collection.remove({});
-
-            // close server connection
-            await server.close();
-        });
-
         test("should return status 400 if req body is invalid", async () => {
             // get a random auth token
             token = new User().generateAuthToken();
@@ -242,19 +219,6 @@ describe("/api/users", () => {
      * 3. test if the password is changed
      */
     describe("POST /change_password", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            // clear the database
-            await User.collection.remove({});
-
-            // close server connection
-            await server.close();
-        });
-
         test("should return status 400 if req body is invalid", async () => {
             // get a random auth token
             token = new User().generateAuthToken();
@@ -345,19 +309,6 @@ describe("/api/users", () => {
      * 3. test if the user is edited
      */
     describe("POST /delete", () => {
-        beforeEach(() => {
-            // start server connection
-            server = require("../../../index");
-        });
-
-        afterEach(async () => {
-            // clear the database
-            await User.collection.remove({});
-
-            // close server connection
-            await server.close();
-        });
-
         test("should return status 400 if req body is invalid", async () => {
             // get a random auth token
             token = new User().generateAuthToken();
