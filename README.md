@@ -1,14 +1,17 @@
-# shorthands-backend
-The backend service for shorthands - An open source service to help new recurits navigate company specific acronyms and other terms.
+# shorthands
+
+An open source service to help new recurits navigate company specific acronyms and other terms.
 
 star this repo :star:
 
 ## why?
 
-I came across this tweet by 
+I came across this tweet by
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">When onboarding new team members, please define acronyms.<br>Spoiler alert: we have no idea what they mean and we&#39;re often too anxious to speak up (especially in a group setting).</p>&mdash; Emma Bostian 🐞 (@EmmaBostian) <a href="https://twitter.com/EmmaBostian/status/1293093657336336384?ref_src=twsrc%5Etfw">August 11, 2020</a></blockquote>
 
 and this reply to the tweet
+
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I see this happen way too much. An engineer on my team actually created a web app for the company called IDK where you can search terms. He did that when he first started!</p>&mdash; Ryan Burgess (@burgessdryan) <a href="https://twitter.com/burgessdryan/status/1293225318002515969?ref_src=twsrc%5Etfw">August 11, 2020</a></blockquote>
 
 and I thought that a solution to this could be helpful to people and it's a good way for me to practice.

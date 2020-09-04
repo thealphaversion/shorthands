@@ -10,9 +10,6 @@ backend/coverage
 # logging
 backend/logs
 
-# settings
-.vscode
-
 
 # ********
 # frontend
