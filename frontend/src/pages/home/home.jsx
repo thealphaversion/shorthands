@@ -1,9 +1,19 @@
-import React from "react";
-import { getUser, removeUserSession } from "../../utils/common";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-function Dashboard(props) {
+import NavigationBar from "../../components/navigation-bar/navigation-bar";
+import Header from "../../components/home/header";
+
+import { getUser, removeUserSession } from "../../services/session";
+
+import "./home.css";
+
+function Home(props) {
     const user = getUser();
 
+    const [organizations, setOrganizations] = useState([]);
+
+    useEffect(() => {});
     // handle click event of logout button
     const handleLogout = () => {
         removeUserSession();
@@ -12,11 +22,12 @@ function Dashboard(props) {
 
     return (
         <div>
-            Welcome {user.name}!<br />
-            <br />
-            <input type="button" onClick={handleLogout} value="Logout" />
+            <NavigationBar></NavigationBar>
+            <div className="home-container">
+                <Header user={user}></Header>
+            </div>
         </div>
     );
 }
 
-export default Dashboard;
+export default Home;

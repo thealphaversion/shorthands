@@ -22,8 +22,8 @@ function NavigationBar(props) {
                     <Nav className="ml-auto nav-items">
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/search">Search</Nav.Link>
-                        <Nav.Link href="/resume">Resume</Nav.Link>
-                        <Nav.Link href="/contact">Contact</Nav.Link>
+                        <Nav.Link href="/invitations">Invitations</Nav.Link>
+                        <Nav.Link href="/profile">Profile</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

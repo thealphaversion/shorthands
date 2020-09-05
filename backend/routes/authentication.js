@@ -8,6 +8,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
+const cors = require("cors");
 
 // module imports
 const { User } = require("../models/user");
@@ -70,7 +71,9 @@ router.post("/users", async (req, res) => {
     // generates JSON Web Token
     const token = user.generateAuthToken();
 
-    return res.status(200).send(token);
+    return res
+        .status(200)
+        .send({ token: token, username: user.username, type: "user" });
 });
 
 /**
@@ -110,7 +113,11 @@ router.post("/organizations", async (req, res) => {
     // generates JSON Web Token
     const token = organization.generateAuthToken();
 
-    return res.status(200).send(token);
+    return res.status(200).send({
+        token: token,
+        username: organization.name,
+        type: "organization",
+    });
 });
 
 module.exports = router;

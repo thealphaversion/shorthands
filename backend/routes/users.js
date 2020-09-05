@@ -25,11 +25,19 @@ const router = express.Router();
  *
  * finds the current user using the req.user._id property set by the auth middleware
  *
- * returns the logged in user object without its password
+ * if user doesn't exist, returns 404.
+ *
+ * returns the logged in username and organizations it is part of.
  */
 router.get("/current", auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select({ username: 1 });
-    res.send(user);
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        return res.status(404).send("No user with given id exists.");
+    }
+    res.status(200).send({
+        username: user.username,
+        organizations: user.organizations,
+    });
 });
 
 /**

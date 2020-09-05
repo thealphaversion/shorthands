@@ -1,10 +1,12 @@
 // package imports
 const express = require("express");
 const winston = require("winston");
+const cors = require("cors");
 
 // the express application that we'll use to
 // construct the request, response pipeline
 const app = express();
+app.use(cors());
 
 // logging and unhandled error handling
 require("./startup/logs")();
@@ -22,7 +24,7 @@ require("./startup/config")();
 require("./startup/validate")();
 
 // start server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const server = app.listen(port, () =>
     winston.info(`Listening on port ${port}...`)
 );

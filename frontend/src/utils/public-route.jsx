@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { getToken } from "./common";
+import { getToken } from "../services/session";
 
 // handle the public routes
 function PublicRoute({ component: Component, ...rest }) {
@@ -11,7 +11,7 @@ function PublicRoute({ component: Component, ...rest }) {
                 !getToken() ? (
                     <Component {...props} />
                 ) : (
-                    <Redirect to={{ pathname: "/dashboard" }} />
+                    <Redirect to={{ pathname: "/login" }} />
                 )
             }
         />

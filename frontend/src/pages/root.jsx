@@ -12,37 +12,48 @@ import axios from "axios";
 import Login from "../pages/login/login";
 import Home from "../pages/home/home";
 import Footer from "../components/footer/footer";
-import NavigationBar from "../components/navigation-bar/navigation-bar";
 
 import PrivateRoute from "../utils/private-route";
 import PublicRoute from "../utils/public-route";
-import { getToken, removeUserSession, setUserSession } from "../utils/common";
+import { getToken, getType, removeUserSession } from "../services/session";
 
 import history from "../services/history";
 
 function Root() {
-    const [authLoading, setAuthLoading] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = getToken();
+        const type = getType();
+
+        console.log("type: " + type);
+
         if (!token) {
             return;
         }
 
+        const uri =
+            type == "user"
+                ? "http://localhost:5000/api/users/current"
+                : "http://localhost:5000/api/organizations/current";
+
         axios
-            .get(`http://localhost:3000/verifyToken?token=${token}`)
+            .get(uri, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
             .then((response) => {
-                setUserSession(response.data.token, response.data.user);
-                setAuthLoading(false);
+                setLoading(false);
             })
             .catch((error) => {
                 removeUserSession();
-                setAuthLoading(false);
+                setLoading(false);
             });
     }, []);
 
-    if (authLoading && getToken()) {
-        return <div className="content">Checking Authentication...</div>;
+    if (loading && getToken()) {
+        return <div className="content">Loading...</div>;
     }
 
     return (
@@ -50,27 +61,31 @@ function Root() {
             <div className="content-wrap">
                 <Router history={history}>
                     <Container className="p-0" fluid={true}>
-                        <NavigationBar></NavigationBar>
-                        <Route
+                        <PublicRoute
+                            path="/login"
+                            exact
+                            component={Login}
+                        ></PublicRoute>
+                        <PrivateRoute
                             path="/"
                             exact
-                            render={() => <Login></Login>}
-                        ></Route>
-                        <Route
+                            component={Home}
+                        ></PrivateRoute>
+                        <PrivateRoute
                             path="/projects"
                             exact
-                            render={() => <div></div>}
-                        ></Route>
-                        <Route
+                            component={Home}
+                        ></PrivateRoute>
+                        <PrivateRoute
                             path="/resume"
                             exact
-                            render={() => <div></div>}
-                        ></Route>
-                        <Route
+                            component={Home}
+                        ></PrivateRoute>
+                        <PrivateRoute
                             path="/contact"
                             exact
-                            render={() => <div></div>}
-                        ></Route>
+                            component={Home}
+                        ></PrivateRoute>
                     </Container>
                 </Router>
             </div>

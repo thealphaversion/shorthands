@@ -28,13 +28,27 @@ const router = express.Router();
  *
  * finds the current organization that is logged in using the req.user._id property set by the auth middleware
  *
- * returns the logged in organization object without its password
+ * if organization doesn't exist, returns 404.
+ *
+ * returns the logged in organization name and users
  */
 router.get("/current", auth, async (req, res) => {
-    const organization = await Organization.findById(req.user._id).select({
-        name: 1,
+    const organization = await Organization.findById(req.user._id);
+    if (!organization) {
+        return res.status(404).send("No organization with given id exists.");
+    }
+    res.status(200).send({
+        name: organization.name,
+        users: organization.users,
     });
-    res.status(200).send(organization);
+});
+
+router.get("/all", auth, async (req, res) => {
+    const organization = await Organization.findById(req.user._id);
+    if (!organization) {
+        return res.status(404).send("No organization with given id exists.");
+    }
+    res.status(200).send({ name: organization.name });
 });
 
 /**

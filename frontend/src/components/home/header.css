@@ -1,0 +1,10 @@
+.home-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 33vh;
+}
+
+.home-header-color {
+    background-color: #f5eee4;
+}

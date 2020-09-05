@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { setUserSession } from "../../utils/common";
+import { setUserSession } from "../../services/session";
 import { Form, Button } from "react-bootstrap";
 import "./login.css";
+
+const server_url = "http://localhost:5000";
 
 function Login(props) {
     const [loading, setLoading] = useState(false);
@@ -10,30 +12,99 @@ function Login(props) {
     const password = useFormInput("");
     const [error, setError] = useState(null);
 
+    // to switch between user and organization login
+    const [isUser, setIsUser] = useState(true);
+
+    // button texts
+    const [loginButtonText, setLoginButtonText] = useState("login");
+    const [signupButtonText, setSignUpButtonText] = useState("sign up");
+
     // handle button click of login form
-    const handleLogin = () => {
+    const handleUserLogin = (e) => {
+        e.preventDefault();
         setError(null);
         setLoading(true);
+        setLoginButtonText("logging in...");
+
+        const uri = isUser
+            ? `${server_url}/api/auth/users`
+            : `${server_url}/api/auth/organizations`;
+
         axios
-            .post("http://localhost:4000/users/signin", {
+            .post(uri, {
                 username: username.value,
                 password: password.value,
             })
             .then((response) => {
                 setLoading(false);
-                setUserSession(response.data.token, response.data.user);
-                props.history.push("/dashboard");
+                setLoginButtonText("log in");
+                if (response.status === 400) {
+                    setError(response.data);
+                } else {
+                    setUserSession(
+                        response.data.token,
+                        response.data.username,
+                        response.data.type
+                    );
+                    props.history.push("/");
+                }
             })
             .catch((error) => {
                 setLoading(false);
-                if (error.response.status === 401)
-                    setError(error.response.data.message);
-                else setError("Something went wrong. Please try again later.");
+                setLoginButtonText("log in");
+                setError(
+                    "Something went wrong. Please try again later." + error
+                );
             });
     };
 
+    // handle button click of login form
+    const handleUserSignup = (e) => {
+        e.preventDefault();
+        setError(null);
+        setLoading(true);
+        setSignUpButtonText("signing up...");
+
+        const uri = isUser
+            ? `${server_url}/api/users/create`
+            : `${server_url}/api/organizations/create`;
+
+        axios
+            .post(uri, {
+                username: username.value,
+                password: password.value,
+            })
+            .then((response) => {
+                setLoading(false);
+                setSignUpButtonText("sign up");
+                if (response.status === 400) {
+                    setError(response.data);
+                } else {
+                    setUserSession(
+                        response.data.token,
+                        response.data.user,
+                        response.data.type
+                    );
+                    props.history.push("/");
+                }
+            })
+            .catch((error) => {
+                setLoading(false);
+                setSignUpButtonText("sign up");
+                setError("Something went wrong. Please try again later.");
+            });
+    };
+
+    const handleTypeChange = () => {
+        if (isUser) {
+            setIsUser(false);
+        } else {
+            setIsUser(true);
+        }
+    };
+
     return (
-        <div className="login-container">
+        <div className={`login-container ${isUser ? "user-bg" : "org-bg"}`}>
             <div className="login-title">
                 <p>shorthands</p>
             </div>
@@ -42,7 +113,12 @@ function Login(props) {
                     <Form.Group controlId="formGroupEmail">
                         <Form.Label>username</Form.Label>
                         <Form.Control
-                            placeholder="enter your username"
+                            placeholder={
+                                isUser
+                                    ? "enter your username"
+                                    : "enter organization name"
+                            }
+                            {...username}
                             required
                         ></Form.Control>
                     </Form.Group>
@@ -50,18 +126,52 @@ function Login(props) {
                         <Form.Label>password</Form.Label>
                         <Form.Control
                             type="password"
-                            placeholder="enter your password"
+                            {...password}
+                            required
+                            placeholder={
+                                isUser
+                                    ? "enter your password"
+                                    : "enter organization password"
+                            }
                         />
                     </Form.Group>
                 </Form>
             </div>
             <div className="login-button-container">
-                <Button variant="outline-dark" className="login-button">
-                    login
+                <Button
+                    variant="outline-dark"
+                    className="login-button"
+                    disabled={loading}
+                    onClick={handleUserLogin}
+                >
+                    {loginButtonText}
                 </Button>
-                <Button variant="outline-dark" className="login-button">
-                    sign up
+                <Button
+                    variant="outline-dark"
+                    className="login-button"
+                    disabled={loading}
+                    onClick={handleUserSignup}
+                >
+                    {signupButtonText}
                 </Button>
+            </div>
+            <div className="org-button-container">
+                <Button
+                    variant="link"
+                    className="org-button"
+                    disabled={loading}
+                    onClick={handleTypeChange}
+                >
+                    {isUser ? "login as an organization" : "login as a user"}
+                </Button>
+            </div>
+            <div>
+                {error && (
+                    <>
+                        <small style={{ color: "red" }}>{error}</small>
+                        <br />
+                    </>
+                )}
             </div>
         </div>
     );

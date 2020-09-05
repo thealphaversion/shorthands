@@ -5,7 +5,14 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
+}
+
+.user-bg {
     background-color: #f3e7f3;
+}
+
+.org-bg {
+    background-color: #e8f5d5;
 }
 
 .login-title {
@@ -15,7 +22,7 @@
 }
 
 .login-input-block {
-    width: 70vw;
+    width: 50vw;
 }
 
 .login-input-field {
@@ -24,7 +31,7 @@
 }
 
 .login-button-container * {
-    margin: 10px 20px 10px 20px;
+    margin: 10px 20px 20px 20px;
     min-width: 150px;
 }
 
@@ -33,11 +40,15 @@
     .login-title {
         font-family: "Architects Daughter";
         padding: 20px 20px 0px 20px;
-        font-size: 3.5em;
+        font-size: 3em;
     }
 
     .login-button-container * {
-        margin: 10px 10px 10px 10px;
-        min-width: 100px;
+        margin: 10px 10px 20x 10px;
+        min-width: 85px;
+    }
+
+    .login-input-block {
+        width: 75vw;
     }
 }
