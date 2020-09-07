@@ -1,0 +1,24 @@
+.home-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 25vh;
+}
+
+/*
+#5a4f4c - dark
+#b3a289 - light
+#6e6663
+#38342d
+*/
+
+.home-header-color {
+    background-color: #988bac;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .home-heading {
+        min-height: 15vh;
+    }
+}

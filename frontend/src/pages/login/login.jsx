@@ -4,7 +4,7 @@ import { setUserSession } from "../../services/session";
 import { Form, Button } from "react-bootstrap";
 import "./login.css";
 
-const server_url = "http://localhost:5000";
+import server_url from "../../services/server";
 
 function Login(props) {
     const [loading, setLoading] = useState(false);
@@ -27,8 +27,8 @@ function Login(props) {
         setLoginButtonText("logging in...");
 
         const uri = isUser
-            ? `${server_url}/api/auth/users`
-            : `${server_url}/api/auth/organizations`;
+            ? `${server_url}/auth/users`
+            : `${server_url}/auth/organizations`;
 
         axios
             .post(uri, {
@@ -66,8 +66,8 @@ function Login(props) {
         setSignUpButtonText("signing up...");
 
         const uri = isUser
-            ? `${server_url}/api/users/create`
-            : `${server_url}/api/organizations/create`;
+            ? `${server_url}/users/create`
+            : `${server_url}/organizations/create`;
 
         axios
             .post(uri, {

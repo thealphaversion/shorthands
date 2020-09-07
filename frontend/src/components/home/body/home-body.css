@@ -1,0 +1,35 @@
+.home-card-column {
+    flex: 50%;
+}
+
+.home-card-row {
+    display: flex;
+}
+
+.home-card-container {
+    margin: 40px;
+}
+
+.home-card-container-empty {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .home-card-column {
+        flex: 100%;
+        width: 100%;
+    }
+    .home-card-row {
+        display: block;
+    }
+    .home-card-container {
+        width: 100%;
+        margin: 0px 15px;
+    }
+    .home-card-container-empty {
+        margin: 10px 20px;
+    }
+}

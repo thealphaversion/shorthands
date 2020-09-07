@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-    BrowserRouter,
-    Router,
-    Switch,
-    Route,
-    NavLink,
-} from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import axios from "axios";
 
@@ -18,6 +12,7 @@ import PublicRoute from "../utils/public-route";
 import { getToken, getType, removeUserSession } from "../services/session";
 
 import history from "../services/history";
+import server_url from "../services/server";
 
 function Root() {
     const [loading, setLoading] = useState(true);
@@ -26,16 +21,14 @@ function Root() {
         const token = getToken();
         const type = getType();
 
-        console.log("type: " + type);
-
         if (!token) {
             return;
         }
 
         const uri =
-            type == "user"
-                ? "http://localhost:5000/api/users/current"
-                : "http://localhost:5000/api/organizations/current";
+            type === "user"
+                ? server_url + "/users/current"
+                : server_url + "/organizations/current";
 
         axios
             .get(uri, {

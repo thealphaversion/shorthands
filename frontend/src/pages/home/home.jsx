@@ -1,19 +1,52 @@
+/**
+ * This page renders the home page for a user
+ */
+
+// package imports
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+// component imports
 import NavigationBar from "../../components/navigation-bar/navigation-bar";
-import Header from "../../components/home/header";
+import Header from "../../components/home/header/header";
+import HomeBody from "../../components/home/body/home-body";
 
-import { getUser, removeUserSession } from "../../services/session";
-
+// css imports
 import "./home.css";
+
+// service imports
+import { getUser, getToken, removeUserSession } from "../../services/session";
+import server_url from "../../services/server";
 
 function Home(props) {
     const user = getUser();
 
     const [organizations, setOrganizations] = useState([]);
+    const [error, setError] = useState(null);
 
-    useEffect(() => {});
+    useEffect(() => {
+        const token = getToken();
+
+        if (!token) {
+            return;
+        }
+
+        axios
+            .get(server_url + "/users/current", {
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
+            .then((response) => {
+                const orgs = response.data.organizations;
+                setOrganizations(orgs);
+                console.log(organizations);
+            })
+            .catch((error) => {
+                setError(error);
+            });
+    }, []);
+
     // handle click event of logout button
     const handleLogout = () => {
         removeUserSession();
@@ -25,6 +58,9 @@ function Home(props) {
             <NavigationBar></NavigationBar>
             <div className="home-container">
                 <Header user={user}></Header>
+                <div className="home-body home-body-color">
+                    <HomeBody organizations={organizations}></HomeBody>
+                </div>
             </div>
         </div>
     );

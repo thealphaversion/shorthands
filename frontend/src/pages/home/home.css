@@ -1,0 +1,14 @@
+.home-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 63vh;
+}
+
+/*
+#f5eee4
+*/
+
+.home-body-color {
+    background-color: #f1e2e0;
+}
