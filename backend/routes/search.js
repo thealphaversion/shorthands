@@ -1,6 +1,6 @@
 /**
  * this module has the following routes
- * /api/search/organizations/:name              -> GET      -> returns a list of organizations whose name matches with the query
+ * /api/search/organizations/:username          -> GET      -> returns a list of organizations whose username matches with the query
  * /api/search/users/:username                  -> GET      -> returns a list of users whose usernames match with the query
  * /api/search/shorts/                          -> GET      -> returns a list of shorts that match with the query
  */
@@ -18,11 +18,11 @@ const { Short } = require("../models/shorts");
 const router = express.Router();
 
 /**
- * /api/search/organizations/:name  -> GET
+ * /api/search/organizations/:username  -> GET
  * returns a list of organizations whose name matches with the query
  *
  * request header should carry an auth token
- * request params should have a property name
+ * request params should have a property username
  */
 router.get("/organizations/:name", auth, async (req, res) => {
     // validates if req.params is as expected
@@ -31,7 +31,7 @@ router.get("/organizations/:name", auth, async (req, res) => {
     }
 
     const organizations = await Organization.find({
-        name: req.params.name,
+        username: req.params.username,
     }).select({ password: -1 });
 
     res.status(200).send(organizations);

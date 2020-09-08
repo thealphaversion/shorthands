@@ -132,7 +132,6 @@ router.post("/delete", auth, async (req, res) => {
     let short = await Short.findByIdAndRemove(req.body.short_id);
     res.status(200).send(short.shorthand + " deleted.");
 });
-router.get("/:id", async (req, res) => {});
 
 /**
  * /api/shorts/:id  -> GET

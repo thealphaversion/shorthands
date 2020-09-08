@@ -17,12 +17,10 @@ function HomeBody(props) {
     organizations.push({
         name: "Microsoft",
         users: ["a", "b", "c"],
-        num_shorts: 14,
     });
     organizations.push({
         name: "Netflix",
         users: ["a", "b", "c", "d"],
-        num_shorts: 1,
     });
     */
 

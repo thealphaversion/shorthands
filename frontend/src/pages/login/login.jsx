@@ -53,7 +53,7 @@ function Login(props) {
                 setLoading(false);
                 setLoginButtonText("log in");
                 setError(
-                    "Something went wrong. Please try again later." + error
+                    "Something went wrong. Please try again later. " + error
                 );
             });
     };
@@ -82,7 +82,7 @@ function Login(props) {
                 } else {
                     setUserSession(
                         response.data.token,
-                        response.data.user,
+                        response.data.username,
                         response.data.type
                     );
                     props.history.push("/");
@@ -91,7 +91,9 @@ function Login(props) {
             .catch((error) => {
                 setLoading(false);
                 setSignUpButtonText("sign up");
-                setError("Something went wrong. Please try again later.");
+                setError(
+                    "Something went wrong. Please try again later. " + error
+                );
             });
     };
 

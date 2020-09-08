@@ -30,7 +30,7 @@ const router = express.Router();
  *
  * if organization doesn't exist, returns 404.
  *
- * returns the logged in organization name and users
+ * returns the logged in organization username and users
  */
 router.get("/current", auth, async (req, res) => {
     const organization = await Organization.findById(req.user._id);
@@ -38,7 +38,7 @@ router.get("/current", auth, async (req, res) => {
         return res.status(404).send("No organization with given id exists.");
     }
     res.status(200).send({
-        name: organization.name,
+        username: organization.username,
         users: organization.users,
     });
 });
@@ -48,16 +48,16 @@ router.get("/all", auth, async (req, res) => {
     if (!organization) {
         return res.status(404).send("No organization with given id exists.");
     }
-    res.status(200).send({ name: organization.name });
+    res.status(200).send({ username: organization.username });
 });
 
 /**
  * /api/organizations/create  -> POST
  * creates a new organization
  *
- * request body should have properties name and password
+ * request body should have properties username and password
  *
- * expected req.body = { "name": name, "password": password }
+ * expected req.body = { "username": username, "password": password }
  *
  * created organizations have the property users set to empty arrays
  *
@@ -73,7 +73,7 @@ router.post("/create", async (req, res) => {
 
     // check if the organization already exists
     let organization = await Organization.findOne({
-        name: req.body.name,
+        username: req.body.username,
     });
     if (organization) {
         return res.status(400).send("Organization already registered.");
@@ -85,7 +85,7 @@ router.post("/create", async (req, res) => {
 
     // create new organization
     organization = new Organization({
-        name: req.body.name,
+        username: req.body.username,
         password: hashedPassword,
     });
 
@@ -94,24 +94,26 @@ router.post("/create", async (req, res) => {
     // generate auth token
     const token = organization.generateAuthToken();
 
-    res.status(200)
-        .header("x-auth-token", token)
-        .send(organization.name + " created successfully!");
+    return res.status(200).send({
+        token: token,
+        username: organization.username,
+        type: "organization",
+    });
 });
 
 /**
  * /api/organizations/edit  -> POST
- * updates name of an organization
+ * updates username of an organization
  *
  * request header should carry an auth token
- * request body should have properties name and password
+ * request body should have properties username and password
  *
- * expected req.body = { "name": name, "password": password }
+ * expected req.body = { "username": username, "password": password }
  *
- * req.user._id set by the auth middleware will identify the organization whose name is to be updated
- * name will be the target state of that organization.name property
+ * req.user._id set by the auth middleware will identify the organization whose username is to be updated
+ * username will be the target state of that organization.username property
  *
- * organization name can only be modified by an organization
+ * organization username can only be modified by an organization
  */
 router.post("/edit", auth, async (req, res) => {
     // validates if req.body is as expected
@@ -127,13 +129,13 @@ router.post("/edit", auth, async (req, res) => {
         return res.status(400).send("Invalid organization.");
     }
 
-    // update name property of organization
+    // update username property of organization
     organization.set({
-        name: req.body.name,
+        username: req.body.username,
     });
     await organization.save();
 
-    res.status(200).send(organization.name);
+    res.status(200).send(organization.username);
 });
 
 /**
@@ -141,9 +143,9 @@ router.post("/edit", auth, async (req, res) => {
  * updates password of an organization
  *
  * request header should carry an auth token
- * request body should have properties name and password
+ * request body should have properties username and password
  *
- * expected req.body = { "name": name, "password": password }
+ * expected req.body = { "username": username, "password": password }
  *
  * req.user._id set by the auth middleware will identify the organization whose password is to be updated
  * password will be the target state of that organization.password property
@@ -174,7 +176,7 @@ router.post("/change_password", auth, async (req, res) => {
     });
     await organization.save();
 
-    res.status(200).send(organization.name);
+    res.status(200).send(organization.username);
 });
 
 /**
@@ -182,9 +184,9 @@ router.post("/change_password", auth, async (req, res) => {
  * deletes an organization
  *
  * request header should carry an auth token
- * request body should have properties name and password
+ * request body should have properties username and password
  *
- * expected req.body = { "name": name, "password": password }
+ * expected req.body = { "username": username, "password": password }
  *
  * req.user._id set by the auth middleware will identify the organization that is to be deleted
  * first the req.body.password will be compared with organization.password
@@ -218,7 +220,7 @@ router.post("/delete", auth, async (req, res) => {
 
     organization = await Organization.findByIdAndRemove(req.user._id);
 
-    res.status(200).send(organization.name + " deleted.");
+    res.status(200).send(organization.username + " deleted.");
 });
 
 module.exports = router;

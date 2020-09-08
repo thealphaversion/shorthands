@@ -80,9 +80,9 @@ router.post("/users", async (req, res) => {
  * /api/auth/organizations  -> POST
  * authenticates (logs in) an organization
  *
- * request body should have a property name and password
+ * request body should have a property username and password
  *
- * expected req.body = { "name": name, "password": password }
+ * expected req.body = { "username": username, "password": password }
  *
  * response returns a JSON Web Token
  * client should store it
@@ -94,10 +94,12 @@ router.post("/organizations", async (req, res) => {
         return res.status(400).send(error.details[0].message);
     }
 
-    // finds organization using the name
-    const organization = await Organization.findOne({ name: req.body.name });
+    // finds organization using the username
+    const organization = await Organization.findOne({
+        username: req.body.username,
+    });
     if (!organization) {
-        return res.status(400).send("Invalid name or password");
+        return res.status(400).send("Invalid username or password");
     }
 
     // checking if password is correct
@@ -115,7 +117,7 @@ router.post("/organizations", async (req, res) => {
 
     return res.status(200).send({
         token: token,
-        username: organization.name,
+        username: organization.username,
         type: "organization",
     });
 });

@@ -15,34 +15,14 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const organizationSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 1,
-        maxlength: 96,
-    },
-});
-
-const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-        minlength: 1,
-        maxlength: 96,
-    },
-});
-
 const invitationSchema = new mongoose.Schema({
-    organization: {
-        type: organizationSchema,
-        required: true,
+    organization_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "organization",
     },
-    user: {
-        type: userSchema,
-        required: true,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
     },
     status: {
         type: String,

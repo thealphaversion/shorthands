@@ -3,10 +3,10 @@
  * /api/invitations/create                              -> POST     -> creates new invitation
  * /api/invitations/modify                              -> POST     -> modifies the status of an invitation
  * /api/invitations/delete                              -> POST     -> deletes an invitation
- * /api/invitations//user/get_all_invites               -> GET      -> gets all invitations for a user
- * /api/invitations/user/get_invites/:status            -> GET      -> gets all invitations for an organization filtered by status
- * /api/invitations//organization/get_all_invites       -> GET      -> gets all invitations for a user
- * /api/invitations/organization/get_invites/:status    -> GET      -> gets all invitations for an organization filtered by status
+ * /api/invitations/all/user                            -> GET      -> gets all invitations for a user
+ * /api/invitations/all/user/:status                    -> GET      -> gets all invitations for an organization filtered by status
+ * /api/invitations/all/organization                    -> GET      -> gets all invitations for a user
+ * /api/invitations/all/organization/:status            -> GET      -> gets all invitations for an organization filtered by status
  */
 
 // package imports
@@ -50,33 +50,27 @@ router.post("/create", auth, async (req, res) => {
     // the auth middleware sets the req.user property
     // check if the organization exists
     let organization = await Organization.findById(req.user._id);
+
     if (!organization) {
         return res.status(400).send("Invalid organization.");
     }
 
     // check if the user exists
     let target_user = await User.findById(req.body.user_id);
+
     if (!target_user) {
         return res.status(400).send("Invalid user.");
     }
 
     // create new invitation
     const invitation = new Invitation({
-        organization: {
-            _id: organization._id,
-            name: organization.name,
-        },
-        user: {
-            _id: target_user._id,
-            username: target_user.username,
-        },
+        organization_id: organization._id,
+        user_id: target_user._id,
     });
 
     await invitation.save();
 
-    res.status(200).send(
-        "Invite sent successfully to " + target_user.username + "."
-    );
+    res.status(200).send("Invite sent successfully.");
 });
 
 /**
@@ -120,20 +114,20 @@ router.post("/modify", auth, async (req, res) => {
         });
         await invitation.save();
 
-        res.status(200).send("Invitation rejected.");
-    } else if (req.body.status === status.REJECTED) {
+        return res.status(200).send("Invitation rejected.");
+    } else if (req.body.status === status.ACCEPTED) {
         // if the user accepts the invitation
 
         // check if the organization exists
         let organization = await Organization.findById(
-            invitation.organization._id
+            invitation.organization_id
         );
         if (!organization) {
             return res.status(400).send("Invalid organization.");
         }
 
         // check if the user exists
-        let user = await User.findById(invitation.user._id);
+        let user = await User.findById(invitation.user_id);
         if (!user) {
             return res.status(400).send("Invalid user.");
         }
@@ -144,19 +138,19 @@ router.post("/modify", auth, async (req, res) => {
             new Fawn.Task()
                 .update(
                     "users",
-                    { _id: invitation.user._id },
+                    { _id: invitation.user_id },
                     {
                         $push: {
                             organizations: {
                                 _id: organization._id,
-                                name: organization.name,
+                                username: organization.username,
                             },
                         },
                     }
                 )
                 .update(
                     "organizations",
-                    { _id: invitation.organization._id },
+                    { _id: invitation.organization_id },
                     {
                         $push: {
                             users: {
@@ -176,7 +170,7 @@ router.post("/modify", auth, async (req, res) => {
             return res.status(500).send("Error completing task.");
         }
 
-        res.status(200).send("Invitation successfully accepted.");
+        return res.status(200).send("Invitation successfully accepted.");
     }
 });
 
@@ -207,29 +201,29 @@ router.post("/delete", auth, async (req, res) => {
 });
 
 /**
- * /api/invitations/user/get_all_invites  -> GET
+ * /api/invitations/all/user  -> GET
  * gets all invitations for a user
  *
  * request header should carry an auth token
  *
  * returns a list of all invitations for the user
  */
-router.get("/user/get_all_invites", auth, async (req, res) => {
+router.get("/all/user", auth, async (req, res) => {
     // list of all invitations for a particular user
     // the auth middleware sets the req.user property
-    let invitations = await Invitation.find({ user: { _id: req.user._id } });
+    let invitations = await Invitation.find({ user_id: { _id: req.user._id } });
     res.status(200).send(invitations);
 });
 
 /**
- * /api/invitations/user/get_invites/:status  -> GET
+ * /api/invitations/all/user/:status  -> GET
  * gets all invitations for a user filtered by status
  *
  * request header should carry an auth token
  *
  * returns a list of all invitations for the user
  */
-router.get("/user/get_invites/:status", auth, async (req, res) => {
+router.get("/all/user/:status", auth, async (req, res) => {
     // validates if req.params is as expected
     let status_list = ["pending", "accepted", "rejected"];
     let status = req.params.status.toLowerCase();
@@ -240,38 +234,38 @@ router.get("/user/get_invites/:status", auth, async (req, res) => {
     // list of invitations filtered by status for a particular user
     // the auth middleware sets the req.user property
     let invitations = await Invitation.find({
-        user: { _id: req.user._id },
+        user_id: { _id: req.user._id },
         status: status,
     });
     res.status(200).send(invitations);
 });
 
 /**
- * /api/invitations/organization/get_all_invites  -> GET
+ * /api/invitations/all/organization  -> GET
  * gets all invitations for an organization
  *
  * request header should carry an auth token
  *
  * returns a list of all invitations for the organization
  */
-router.get("/organization/get_all_invites", auth, async (req, res) => {
+router.get("/all/organization", auth, async (req, res) => {
     // list of all invitations for a particular organization
     // the auth middleware sets the req.user property
     let invitations = await Invitation.find({
-        organization: { _id: req.user._id },
+        organization_id: { _id: req.user._id },
     });
     res.status(200).send(invitations);
 });
 
 /**
- * /api/invitations/organization/get_invites/:status  -> GET
+ * /api/invitations/all/organization/:status  -> GET
  * gets all invitations for an organization filtered by status
  *
  * request header should carry an auth token
  *
  * returns a list of all invitations for the user
  */
-router.get("/organization/get_invites/:status", auth, async (req, res) => {
+router.get("/all/organization/:status", auth, async (req, res) => {
     // validates if req.params is as expected
     let status_list = ["pending", "accepted", "rejected"];
     let status = req.params.status.toLowerCase();
@@ -282,7 +276,7 @@ router.get("/organization/get_invites/:status", auth, async (req, res) => {
     // list of invitations filtered by status for a particular organization
     // the auth middleware sets the req.user property
     let invitations = await Invitation.find({
-        organization: { _id: req.user._id },
+        organization_id: { _id: req.user._id },
         status: status,
     });
     res.status(200).send(invitations);

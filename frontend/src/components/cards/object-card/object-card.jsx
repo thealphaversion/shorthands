@@ -13,7 +13,6 @@ function ObjectCard(props) {
                         Organization - Members - Shorts
                         <h3>{organization.name}</h3>
                         <div>{organization.users.length} members</div>
-                        <div>{organization.num_shorts} shorts</div>
                     </div>
                     <div className="card-button">
                         <Button size="large" variant="outlined">

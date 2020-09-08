@@ -17,7 +17,7 @@ const config = require("config");
 const jwt = require("jsonwebtoken");
 
 const organizationSchema = new mongoose.Schema({
-    name: {
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -37,7 +37,7 @@ const Organization = mongoose.model("Organization", organizationSchema);
 
 const validateOrganization = (organization) => {
     const schema = Joi.object({
-        name: Joi.string().min(1).max(96).required(),
+        username: Joi.string().min(1).max(96).required(),
         password: Joi.string().min(4).max(1024).required(),
     });
 
