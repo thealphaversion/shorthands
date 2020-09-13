@@ -1,0 +1,50 @@
+.organization-card {
+    padding: 20px 35px;
+    color: #f1ac88ff;
+}
+
+.org-button {
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border: 0.1em solid #f1ac88ff;
+    margin: 0 0.3em 0.3em 0;
+    border-radius: 0.25em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-weight: 300;
+    color: #f1ac88ff;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.org-button:hover {
+    color: #000000;
+    background-color: #f1ac88ff;
+    text-decoration: none;
+}
+
+.organization-card-title {
+    font-size: 2rem;
+    padding-bottom: 20px;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .organization-card {
+        padding: 20px;
+        color: #f1ac88ff;
+        max-width: 80vw;
+    }
+
+    .organization-card-title {
+        font-size: 1rem;
+        padding-bottom: 10px;
+    }
+}
+
+@media all and (max-width: 20em) {
+    .org-button {
+        display: block;
+        margin: 0.4em auto;
+    }
+}

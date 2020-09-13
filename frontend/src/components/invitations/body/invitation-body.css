@@ -1,0 +1,27 @@
+.invitation-body {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.invitation-container {
+    width: 70vw;
+}
+
+.no-invitation-container {
+    padding-top: 5vh;
+    font-size: 2rem;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .no-invitation-container {
+        padding-top: 5vh;
+        font-size: 1.25rem;
+    }
+
+    .invitation-container {
+        width: 100vw;
+    }
+}

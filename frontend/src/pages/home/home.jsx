@@ -40,7 +40,6 @@ function Home(props) {
             .then((response) => {
                 const orgs = response.data.organizations;
                 setOrganizations(orgs);
-                console.log(organizations);
             })
             .catch((error) => {
                 setError(error);
@@ -54,13 +53,11 @@ function Home(props) {
     };
 
     return (
-        <div>
+        <div className="home-page home-background-color">
             <NavigationBar></NavigationBar>
-            <div className="home-container">
-                <Header user={user}></Header>
-                <div className="home-body home-body-color">
-                    <HomeBody organizations={organizations}></HomeBody>
-                </div>
+            <Header user={user}></Header>
+            <div className="home-body home-body-color">
+                <HomeBody organizations={organizations}></HomeBody>
             </div>
         </div>
     );

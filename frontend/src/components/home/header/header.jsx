@@ -7,7 +7,10 @@ function Header(props) {
 
     return (
         <div className="home-heading home-header-color">
-            <h1>{"Hi, " + user}</h1>
+            <div className="home-heading-name">{"Hi, " + user}</div>
+            <div className="home-heading-title">
+                <i>welcome to shorthands</i>
+            </div>
         </div>
     );
 }

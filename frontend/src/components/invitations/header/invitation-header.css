@@ -1,0 +1,19 @@
+.invitation-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 20vh;
+    font-size: 4rem;
+}
+
+.invitation-header-color {
+    background-color: #ebe0de;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .invitation-heading {
+        min-height: 15vh;
+        font-size: 2.5rem;
+    }
+}

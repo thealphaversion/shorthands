@@ -5,6 +5,7 @@ import axios from "axios";
 
 import Login from "../pages/login/login";
 import Home from "../pages/home/home";
+import Invitaitons from "../pages/invitations/invitations";
 import Footer from "../components/footer/footer";
 
 import PrivateRoute from "../utils/private-route";
@@ -65,17 +66,12 @@ function Root() {
                             component={Home}
                         ></PrivateRoute>
                         <PrivateRoute
-                            path="/projects"
+                            path="/invitations"
                             exact
-                            component={Home}
+                            component={Invitaitons}
                         ></PrivateRoute>
                         <PrivateRoute
-                            path="/resume"
-                            exact
-                            component={Home}
-                        ></PrivateRoute>
-                        <PrivateRoute
-                            path="/contact"
+                            path="/profile"
                             exact
                             component={Home}
                         ></PrivateRoute>

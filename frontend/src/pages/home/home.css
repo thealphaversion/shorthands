@@ -1,15 +1,11 @@
-.home-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 63vh;
+.home-page {
+    min-height: 95vh;
 }
 
-/*
-#f5eee4
-#f1e2e0
+/* 
+    #f1ac88ff
 */
 
-.home-body-color {
-    background-color: #e4c9c6;
+.home-background-color {
+    background-color: #eebda3ff;
 }

@@ -2,20 +2,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 25vh;
+    min-height: 15vh;
+    flex-direction: column;
 }
 
-/*
-#988bac
-*/
+.home-heading-name {
+    padding: 20px 10px 0px 10px;
+    font-size: 3rem;
+}
+
+.home-heading-title {
+    padding: 0px 10px;
+    font-size: 1.5rem;
+}
 
 .home-header-color {
-    background-color: #e6ab7b;
+    background-color: #eebda3ff;
+    color: rgb(99, 48, 47);
 }
 
 /* responsiveness */
 @media screen and (max-width: 1024px) {
     .home-heading {
-        min-height: 15vh;
+        min-height: 10vh;
+    }
+
+    .home-heading-name {
+        font-size: 1.5rem;
+    }
+
+    .home-heading-title {
+        font-size: 1rem;
     }
 }
