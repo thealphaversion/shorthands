@@ -1,6 +1,6 @@
 /**
  * this module has the following routes
- * /api/shorts/all                            -> GET       -> get all shorts of an organization
+ * /api/shorts/all/:id                        -> GET       -> get all shorts of an organization
  * /api/shorts/create                         -> POST      -> creates a new short
  * /api/shorts/edit                           -> POST      -> modifies an exisitng short
  * /api/shorts/delete                         -> POST      -> deletes a short
@@ -23,13 +23,24 @@ const { Organization } = require("../models/organization");
 const router = express.Router();
 
 /**
- * /api/shorts/all  -> GET
- * get all shorts of an organization
+ * /api/shorts/all/:id  -> GET
+ * get all shorts of an organization by id
  */
-router.get("/all", auth, async (req, res) => {
-    // the auth middleware sets the req.user property
-    let shorts = await Short.find({ _id: req.user._id });
-    res.status(200).send(shorts);
+router.get("/all/:id", auth, async (req, res) => {
+    if (!req.params.id) {
+        return res
+            .status(400)
+            .send({ message: "Invalid request. No organization id provided." });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res
+            .status(400)
+            .send({ message: "Invalid request. Id is invalid." });
+    }
+
+    let shorts = await Short.find({ organization_id: req.params.id });
+    return res.status(200).send({ shorts: shorts });
 });
 
 /**

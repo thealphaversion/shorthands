@@ -1,6 +1,7 @@
 /**
  * this module has the following routes
  * /api/organizations/current                           -> GET      -> gets the current organization
+ * /api/organizations/:id                               -> GET      -> gets the organization with the given id
  * /api/organizations/create                            -> POST     -> creates a new organization
  * /api/organizations/edit                              -> POST     -> updates name of an organization
  * /api/organizations/change_password                   -> POST     -> updates password of an organization
@@ -10,6 +11,7 @@
 // package imports
 const express = require("express");
 const bcrypt = require("bcrypt");
+const mongoose = require("mongoose");
 
 // module imports
 const auth = require("../middleware/auth");
@@ -43,12 +45,37 @@ router.get("/current", auth, async (req, res) => {
     });
 });
 
-router.get("/all", auth, async (req, res) => {
-    const organization = await Organization.findById(req.user._id);
+/**
+ * /api/organizations/:id  -> GET
+ * gets the organization with the given id
+ *
+ * request header should carry an auth token
+ *
+ * finds the organization by its id
+ *
+ * if organization doesn't exist, returns 404.
+ * if a user does not belong to that organization, returns 401.
+ *
+ * returns the organization username
+ */
+router.get("/:id", auth, async (req, res) => {
+    const organization = await Organization.findById(req.params.id);
+
     if (!organization) {
         return res.status(404).send("No organization with given id exists.");
     }
-    res.status(200).send({ username: organization.username });
+
+    const usersList = organization.users;
+
+    if (usersList.some((e) => e._id.equals(req.user._id))) {
+        return res
+            .status(200)
+            .send({ _id: organization._id, username: organization.username });
+    }
+
+    return res.status(401).send({
+        message: "Access Denied. User does not belong to this organization.",
+    });
 });
 
 /**
