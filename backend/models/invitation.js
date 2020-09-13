@@ -18,11 +18,11 @@ const Joi = require("joi");
 const invitationSchema = new mongoose.Schema({
     organization_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "organization",
+        ref: "Organization",
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: "User",
     },
     status: {
         type: String,

@@ -211,8 +211,10 @@ router.post("/delete", auth, async (req, res) => {
 router.get("/all/user", auth, async (req, res) => {
     // list of all invitations for a particular user
     // the auth middleware sets the req.user property
-    let invitations = await Invitation.find({ user_id: { _id: req.user._id } });
-    res.status(200).send(invitations);
+    let invitations = await Invitation.find({
+        user_id: { _id: req.user._id },
+    }).populate("organization_id", "username");
+    res.status(200).send({ invitations: invitations });
 });
 
 /**
@@ -236,8 +238,8 @@ router.get("/all/user/:status", auth, async (req, res) => {
     let invitations = await Invitation.find({
         user_id: { _id: req.user._id },
         status: status,
-    });
-    res.status(200).send(invitations);
+    }).populate("user", "username");
+    res.status(200).send({ invitations: invitations });
 });
 
 /**
@@ -253,8 +255,8 @@ router.get("/all/organization", auth, async (req, res) => {
     // the auth middleware sets the req.user property
     let invitations = await Invitation.find({
         organization_id: { _id: req.user._id },
-    });
-    res.status(200).send(invitations);
+    }).populate("organization", "username");
+    res.status(200).send({ invitations: invitations });
 });
 
 /**
@@ -278,8 +280,8 @@ router.get("/all/organization/:status", auth, async (req, res) => {
     let invitations = await Invitation.find({
         organization_id: { _id: req.user._id },
         status: status,
-    });
-    res.status(200).send(invitations);
+    }).populate("organization", "username");
+    res.status(200).send({ invitations: invitations });
 });
 
 module.exports = router;
