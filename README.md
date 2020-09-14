@@ -19,12 +19,21 @@ and I thought that a solution to this could be helpful to people and it's a good
 ## Getting Started
 
 1. enusre you have node and npm installed
+2. clone or fork this repo
+
+#### Frontend
+
+1. move to the frontend directory
+2. traverse to the root project directory and run npm install
+
+#### Backend
+
+1. move to the backend directory
 2. ensure that you have mongodb installed
-3. clone or fork this repo
-4. traverse to the root project directory and run npm install
-5. create an environment variable called shorthandskey and set it to any value. this is our private key to sign json web tokens
-6. run the server using node index.js
+3. traverse to the root project directory and run npm install
+4. create an environment variable called shorthandskey and set it to any value. this is our private key to sign json web tokens
+5. run the server using node index.js
 
 ## Contribute to the Project
 
-add new stuff, modify new stuff, suggest changes to the system design, just about anything, all suggestions welcome.
+add new stuff, modify new stuff, suggest changes to the system or UI design, just about anything, all suggestions welcome.
