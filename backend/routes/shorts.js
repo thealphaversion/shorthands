@@ -39,7 +39,9 @@ router.get("/all/:id", auth, async (req, res) => {
             .send({ message: "Invalid request. Id is invalid." });
     }
 
-    let shorts = await Short.find({ organization_id: req.params.id });
+    let shorts = await Short.find({ organization_id: req.params.id }).sort({
+        shorthand: 1,
+    });
     return res.status(200).send({ shorts: shorts });
 });
 
