@@ -1,5 +1,7 @@
+// package imports
 import React from "react";
 
+// css imports
 import "./header.css";
 
 function Header(props) {

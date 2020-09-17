@@ -1,0 +1,41 @@
+.organization-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 15vh;
+    flex-direction: column;
+}
+
+.organization-heading-name {
+    padding: 20px 10px 0px 10px;
+    font-size: 3rem;
+}
+
+.organization-heading-title {
+    padding: 0px 10px;
+    font-size: 1.5rem;
+}
+
+/*
+#7db46cff
+*/
+
+.organization-header-color {
+    background-color: rgb(201, 228, 192);
+    color: rgb(0, 0, 0);
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .organization-heading {
+        min-height: 10vh;
+    }
+
+    .organization-heading-name {
+        font-size: 1.5rem;
+    }
+
+    .organization-heading-title {
+        font-size: 1rem;
+    }
+}

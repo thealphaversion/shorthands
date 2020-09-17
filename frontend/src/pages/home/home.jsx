@@ -56,9 +56,10 @@ function Home(props) {
         <div className="home-page home-background-color">
             <NavigationBar></NavigationBar>
             <Header user={user}></Header>
-            <div className="home-body home-body-color">
-                <HomeBody organizations={organizations}></HomeBody>
-            </div>
+            <HomeBody
+                organizations={organizations}
+                history={props.history}
+            ></HomeBody>
         </div>
     );
 }

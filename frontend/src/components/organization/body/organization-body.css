@@ -1,0 +1,15 @@
+.organization-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.organization-body-container {
+    width: 70vw;
+    margin-bottom: 40px;
+}
+
+.organization-body-items {
+    padding: 10px 0px;
+}

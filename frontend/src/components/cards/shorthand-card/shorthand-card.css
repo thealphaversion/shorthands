@@ -1,0 +1,26 @@
+.shorthand-card {
+    padding: 20px 35px;
+    background-color: white;
+    border-radius: 12px;
+}
+
+.shorthand-card-title {
+    font-size: 2rem;
+}
+
+.shorthand-card-description {
+    font-size: 1.25rem;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .shorthand-card {
+        padding: 20px;
+        max-width: 80vw;
+    }
+
+    .shorthand-card-title {
+        font-size: 1rem;
+        padding-bottom: 10px;
+    }
+}

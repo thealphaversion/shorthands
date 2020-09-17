@@ -6,6 +6,7 @@ import axios from "axios";
 import Login from "../pages/login/login";
 import Home from "../pages/home/home";
 import Invitaitons from "../pages/invitations/invitations";
+import Organization from "../pages/organization/organization";
 import Footer from "../components/footer/footer";
 
 import PrivateRoute from "../utils/private-route";
@@ -74,6 +75,11 @@ function Root() {
                             path="/profile"
                             exact
                             component={Home}
+                        ></PrivateRoute>
+                        <PrivateRoute
+                            path="/organization/:organizationId"
+                            exact
+                            component={Organization}
                         ></PrivateRoute>
                     </Container>
                 </Router>

@@ -10,12 +10,22 @@ import "./home-body.css";
 function HomeBody(props) {
     let { organizations } = props;
 
+    if (organizations.length === 0) {
+        return (
+            <React.Fragment>
+                <hr className="home-header-seperation"></hr>
+                <div className="home-body-empty">
+                    You aren't part of any organization yet. Ask your
+                    organization to send you an invite!
+                </div>
+            </React.Fragment>
+        );
+    }
+
     return (
         <React.Fragment>
             <hr className="home-header-seperation"></hr>
-            <div className="home-body-subheading">
-                Organizations you are associated with
-            </div>
+            <div className="home-body-subheading">Your Organizations</div>
             <div className="home-grid-container">
                 {organizations.map((organization, index) => {
                     return (
@@ -25,6 +35,7 @@ function HomeBody(props) {
                         >
                             <OrganizationCard
                                 organization={organization}
+                                history={props.history}
                             ></OrganizationCard>
                         </div>
                     );

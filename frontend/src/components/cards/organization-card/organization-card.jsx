@@ -6,6 +6,12 @@ import "./organization-card.css";
 
 function OrganizationCard(props) {
     const { organization } = props;
+
+    // handle opening organization page
+    const openOrganization = () => {
+        props.history.push(`/organization/${organization._id}`);
+    };
+
     return (
         <div className="organization-card">
             <div className="organization-card-indicator">
@@ -15,9 +21,9 @@ function OrganizationCard(props) {
                 {organization.username}
             </div>
             <div className="organization-card-button">
-                <a type="button" className="org-button">
-                    Open Org
-                </a>
+                <button className="org-button" onClick={openOrganization}>
+                    Open Organization
+                </button>
             </div>
         </div>
     );
