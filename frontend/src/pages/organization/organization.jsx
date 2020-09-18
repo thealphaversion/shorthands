@@ -66,10 +66,9 @@ function Organization(props) {
             return;
         }
 
-        const url = !searchString
-            ? server_url + `/shorts/all/${organizationId}`
-            : server_url +
-              `/search/shorts?shorthand=${searchString}&organization_id=${organizationId}`;
+        const url =
+            server_url +
+            `/search/shorts?shorthand=${searchString}&organization_id=${organizationId}`;
 
         axios
             .get(url, {
