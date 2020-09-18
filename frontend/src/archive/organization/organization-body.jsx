@@ -6,7 +6,6 @@ import ShorthandCard from "../../cards/shorthand-card/shorthand-card";
 
 //css imports
 import "./organization-body.css";
-// import "./org-body.css";
 
 function OrganizationBody(props) {
     const { shorts } = props;

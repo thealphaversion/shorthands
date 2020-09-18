@@ -1,3 +1,6 @@
+/*
+#eebda3ff
+*/
 .home-heading {
     display: flex;
     align-items: center;
@@ -15,10 +18,8 @@
     padding: 0px 10px;
     font-size: 1.5rem;
 }
-
 .home-header-color {
-    background-color: #eebda3ff;
-    color: rgb(99, 48, 47);
+    background-color: rgb(224, 166, 118);
 }
 
 /* responsiveness */

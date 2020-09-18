@@ -22,6 +22,30 @@ function HomeBody(props) {
         );
     }
 
+    if (organizations.length === 1) {
+        return (
+            <React.Fragment>
+                <hr className="home-header-seperation"></hr>
+                <div className="home-body-subheading">Your Organizations</div>
+                <div className="home-single-org-container">
+                    {organizations.map((organization, index) => {
+                        return (
+                            <div
+                                className="home-single-grid-item home-item-color"
+                                key={index}
+                            >
+                                <OrganizationCard
+                                    organization={organization}
+                                    history={props.history}
+                                ></OrganizationCard>
+                            </div>
+                        );
+                    })}
+                </div>
+            </React.Fragment>
+        );
+    }
+
     return (
         <React.Fragment>
             <hr className="home-header-seperation"></hr>

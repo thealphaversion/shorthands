@@ -1,32 +1,37 @@
 .organization-card {
     padding: 20px 35px;
-    color: #f1ac88ff;
+    color: rgb(224, 166, 118);
 }
 
 .org-button {
     display: inline-block;
-    background-color: rgb(131, 74, 72);
+    background-color: #271f1f;
     padding: 0.35em 1.2em;
-    border: 0.1em solid #f1ac88ff;
+    border: 0.1em solid rgb(224, 166, 118);
     margin: 0 0.3em 0.3em 0;
     border-radius: 0.25em;
     box-sizing: border-box;
     text-decoration: none;
     font-weight: 300;
-    color: #f1ac88ff;
+    color: rgb(224, 166, 118);
     text-align: center;
     transition: all 0.2s;
 }
 
 .org-button:hover {
-    color: #000000;
-    background-color: #f1ac88ff;
+    color: #271f1f;
+    background-color: rgb(224, 166, 118);
+    border: 0.1em solid rgb(224, 166, 118);
     text-decoration: none;
 }
 
 .organization-card-title {
-    font-size: 2rem;
-    padding-bottom: 20px;
+    font-size: 2.1rem;
+    padding-bottom: 10px;
+}
+
+.organization-card-indicator {
+    font-size: 1.1rem;
 }
 
 /* responsiveness */
@@ -34,12 +39,16 @@
     .organization-card {
         padding: 20px;
         color: #f1ac88ff;
-        max-width: 80vw;
+        width: 80vw;
     }
 
     .organization-card-title {
-        font-size: 1rem;
+        font-size: 1.35rem;
         padding-bottom: 10px;
+    }
+
+    .organization-card-indicator {
+        font-size: 0.85rem;
     }
 }
 
@@ -47,5 +56,6 @@
     .org-button {
         display: block;
         margin: 0.4em auto;
+        font-size: 0.9rem;
     }
 }
