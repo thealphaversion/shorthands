@@ -5,6 +5,8 @@
  * /api/shorts/edit                           -> POST      -> modifies an exisitng short
  * /api/shorts/delete                         -> POST      -> deletes a short
  * /api/shorts/:id                            -> GET       -> get a short by id
+ * /api/shorts/upvote                         -> POST      -> adds a user to the upvote list
+ * /api/shorts/downvote                       -> POST      -> adds a user to the downvote list
  */
 
 // package imports
@@ -19,6 +21,7 @@ const {
     validateShortObject,
 } = require("../models/shorts");
 const { Organization } = require("../models/organization");
+const { User } = require("../models/user");
 
 const router = express.Router();
 
@@ -127,7 +130,7 @@ router.post("/edit", auth, async (req, res) => {
  * deletes a short
  *
  * request header should carry an auth token
- * request body should have properties short_id
+ * request body should have the property short_id
  *
  * expected req.body = { "short_id": short_id }
  *
@@ -158,6 +161,50 @@ router.get("/:id", auth, async (req, res) => {
     // the auth middleware sets the req.user property
     let shorts = await Short.findById(req.params.id);
     res.status(200).send(shorts);
+});
+
+/**
+ * /api/shorts/upvote  -> POST
+ * adds a user to the upvote list
+ *
+ * request header should carry an auth token
+ * request body should have the property short_id
+ *
+ * expected req.body = { "short_id": short_id, " }
+ *
+ * req.user._id set by the auth middleware will identify the user
+ * who has to be added to the upvotes list
+ *
+ * a short can only be upvoted by a user
+ */
+router.post("/upvote", auth, async (req, res) => {
+    // validates if req.body is as expected
+    if (!mongoose.Types.ObjectId.isValid(req.body.short_id)) {
+        return res.status(400).send("Invalid short.");
+    }
+
+    // the auth middleware sets the req.user property
+    // check if the user exists
+    let user = await User.findById(req.user._id);
+    if (!user) {
+        return res.status(400).send("Invalid user.");
+    }
+
+    // check if the short already exists fot that organization
+    let short = await Short.findById(req.body.short_id);
+    if (!short) {
+        return res.status(400).send("Short does not exist.");
+    }
+
+    let upvotes = short.upvotes;
+
+    upvotes.push(user.username);
+
+    await short.updateOne(
+        { _id: short._id },
+        { $addToSet: { upvotes: [user.username] } }
+    );
+    return res.status(200).send({ short: short });
 });
 
 module.exports = router;

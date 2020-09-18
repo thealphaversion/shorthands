@@ -7,7 +7,7 @@ const users = require("../routes/users");
 const organization = require("../routes/organizations");
 const invitations = require("../routes/invitations");
 const shorts = require("../routes/shorts");
-const search = require("../routes/users");
+const search = require("../routes/search");
 
 // middleware imports
 const error = require("../middleware/error");
@@ -32,7 +32,7 @@ module.exports = function (app) {
     app.use("/api/shorts", shorts);
 
     // all api endpoints that start with /api/search are handled by this
-    app.use("/api/shorts", search);
+    app.use("/api/search", search);
 
     app.use(error);
 };

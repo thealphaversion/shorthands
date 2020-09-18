@@ -2,7 +2,7 @@
  * this module has the following routes
  * /api/search/organizations/:username          -> GET      -> returns a list of organizations whose username matches with the query
  * /api/search/users/:username                  -> GET      -> returns a list of users whose usernames match with the query
- * /api/search/shorts/                          -> GET      -> returns a list of shorts that match with the query
+ * /api/search/shorts                           -> GET      -> returns a list of shorts that match with the query
  */
 
 // package imports
@@ -58,7 +58,7 @@ router.get("/users/:username", auth, async (req, res) => {
 });
 
 /**
- * /api/search/shorts/  -> GET
+ * /api/search/shorts  -> GET
  * returns a list of shorts that match with the query
  *
  * request header should carry an auth token
@@ -66,14 +66,22 @@ router.get("/users/:username", auth, async (req, res) => {
  *
  * query: shorthand = shorthand & organization_id = organization_id
  */
-router.get("/shorts/", auth, async (req, res) => {
+router.get("/shorts", auth, async (req, res) => {
     // validates if req.query is as expected
+    if (!req.query.organization_id) {
+        return res
+            .status(400)
+            .send({ message: "Invalid request. No organization id provided." });
+    }
     if (!mongoose.Types.ObjectId.isValid(req.query.organization_id)) {
         return res.status(400).send("Invalid organization.");
     }
+
+    /*
     if (!req.query.shorthand) {
         return res.status(400).send("Invalid query.");
     }
+    */
 
     // check if the organization exists
     let organization = await Organization.findById(req.query.organization_id);
@@ -81,12 +89,17 @@ router.get("/shorts/", auth, async (req, res) => {
         return res.status(400).send("Invalid organization.");
     }
 
+    let queryString = req.query.shorthand;
+    let regex = new RegExp(`.*${queryString}.*`, "i");
+
     const shorts = await Short.find({
-        shorthand: req.query.shorthand,
+        shorthand: regex,
         organization_id: req.query.organization_id,
+    }).sort({
+        shorthand: 1,
     });
 
-    res.status(200).send(shorts);
+    return res.status(200).send({ shorts: shorts });
 });
 
 module.exports = router;

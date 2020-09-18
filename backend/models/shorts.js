@@ -28,8 +28,8 @@ const shortsSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
     },
-    upvotes: { type: Number, default: 0, min: 0 },
-    downvotes: { type: Number, default: 0, min: 0 },
+    upvotes: { type: Array, default: [] },
+    downvotes: { type: Array, default: [] },
 });
 
 const Short = mongoose.model("Short", shortsSchema);
