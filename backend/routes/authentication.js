@@ -53,7 +53,9 @@ router.post("/users", async (req, res) => {
     }
 
     // finds user using the username
-    const user = await User.findOne({ username: req.body.username });
+    const user = await User.findOne({
+        username: req.body.username.trim().toLowerCase(),
+    });
     if (!user) {
         return res.status(400).send("Invalid username or password");
     }
@@ -96,7 +98,7 @@ router.post("/organizations", async (req, res) => {
 
     // finds organization using the username
     const organization = await Organization.findOne({
-        username: req.body.username,
+        username: req.body.username.trim().toLowerCase(),
     });
     if (!organization) {
         return res.status(400).send("Invalid username or password");
