@@ -10,9 +10,16 @@ import OrganizationBodyGrid from "../body/organization-body-grid/organization-bo
 import "./organization-body.css";
 
 function OrganizationBody(props) {
-    let { shorts, searchString, view, columns, onLayoutChange } = props;
+    let {
+        shorts,
+        searchString,
+        view,
+        columns,
+        onLayoutChange,
+        onSearch,
+    } = props;
 
-    if (!shorts.length === 0) {
+    if (shorts.length === 0) {
         return (
             <div>
                 <OrganizationBodySeparator
@@ -25,7 +32,10 @@ function OrganizationBody(props) {
                         <div className="organization-body-search-result-empty">
                             <div>No shorts found matching the search query</div>
                             <div>
-                                <button className="all-shorts-button">
+                                <button
+                                    className="all-shorts-button"
+                                    onClick={() => onSearch("")}
+                                >
                                     See all shorts
                                 </button>
                             </div>

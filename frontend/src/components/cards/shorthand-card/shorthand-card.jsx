@@ -23,11 +23,11 @@ function ShorthandCard(props) {
                 <button className="shorthand-card-icon-btn-up">
                     <FontAwesomeIcon icon={faArrowUp} size={"1x"} />
                 </button>
-                0
+                {short.upvotes.length}
                 <button className="shorthand-card-icon-btn-down">
                     <FontAwesomeIcon icon={faArrowDown} size={"1x"} />
                 </button>
-                0
+                {short.downvotes.length}
             </div>
         </div>
     );

@@ -172,6 +172,7 @@ function Organization(props) {
             <OrganizationBody
                 shorts={shorts}
                 searchString={searchValue}
+                onSearch={(searchString) => handleSearch(searchString)}
                 onVote={(vote) => handleVote(vote)}
                 columns={columns}
                 onLayoutChange={(value) => changeLayout(value)}
