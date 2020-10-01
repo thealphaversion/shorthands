@@ -1,0 +1,11 @@
+/* body container */
+.organization-body-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5vh 7vw;
+}
+
+/* flex grid item width */
+.organization-body-item-column {
+    max-width: auto;
+}

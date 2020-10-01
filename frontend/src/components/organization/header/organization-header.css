@@ -16,17 +16,12 @@
     font-size: 1.5rem;
 }
 
-/*
-#7db46cff
-*/
-
 .organization-header-color {
-    background-color: rgb(174, 209, 162);
     color: rgb(0, 0, 0);
 }
 
 /* responsiveness */
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 600px) {
     .organization-heading {
         min-height: 10vh;
     }

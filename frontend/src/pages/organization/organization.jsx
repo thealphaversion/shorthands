@@ -5,7 +5,8 @@ import axios from "axios";
 // component imports
 import NavigationBar from "../../components/navigation-bar/navigation-bar";
 import OrganizationHeader from "../../components/organization/header/organization-header";
-import OrganizationGridBody from "../../components/organization/body/organization-grid-body";
+// import OrganizationGridBody from "../../components/organization/body/organization-grid-body";
+import OrganizationBody from "../../components/organization/body/organization-body";
 import Search from "../../components/search/search";
 
 // css imports
@@ -24,6 +25,8 @@ function Organization(props) {
     const [organizationId, setOrganizationId] = useState("");
     const [shorts, setShorts] = useState([]);
     const [searchValue, setSearchValue] = useState("");
+    const [columns, setColumns] = useState(3);
+    const [view, setView] = useState("desktop");
 
     useEffect(() => {
         const token = getToken();
@@ -31,6 +34,8 @@ function Organization(props) {
         if (!token) {
             return;
         }
+
+        setMobileView();
 
         axios
             .get(server_url + `/organizations/${params.organizationId}`, {
@@ -97,6 +102,66 @@ function Organization(props) {
             });
     };
 
+    const handleVote = (vote) => {
+        const token = getToken();
+
+        if (!token) {
+            return;
+        }
+
+        const url = server_url + `/shorts/`;
+
+        axios
+            .get(url, {
+                headers: {
+                    "x-auth-token": token,
+                },
+            })
+            .then((response) => {
+                console.log(vote);
+                setSearchValue(vote);
+                setShorts(response.data.shorts);
+            })
+            .catch((error) => {
+                if (error.response) {
+                    // Request made and server responded
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log("Error: ", error.message);
+                }
+            });
+    };
+
+    const changeLayout = (value) => {
+        const acceptableLayouts = [1, 2, 3];
+        if (acceptableLayouts.includes(value)) {
+            setColumns(value);
+        } else {
+            console.log("out of bounds");
+        }
+    };
+
+    const setMobileView = () => {
+        if (window.innerWidth <= 600) {
+            setView("mobile");
+            setColumns(1);
+        } else if (window.innerWidth > 600 && window.innerWidth <= 1180) {
+            setView("tablet");
+            setColumns(2);
+        } else {
+            setView("desktop");
+            setColumns(3);
+        }
+    };
+
+    window.addEventListener("resize", setMobileView);
+
     return (
         <div className="organization-page organization-background-color">
             <NavigationBar></NavigationBar>
@@ -104,10 +169,14 @@ function Organization(props) {
             <Search
                 onSearch={(searchString) => handleSearch(searchString)}
             ></Search>
-            <OrganizationGridBody
+            <OrganizationBody
                 shorts={shorts}
                 searchString={searchValue}
-            ></OrganizationGridBody>
+                onVote={(vote) => handleVote(vote)}
+                columns={columns}
+                onLayoutChange={(value) => changeLayout(value)}
+                view={view}
+            ></OrganizationBody>
         </div>
     );
 }

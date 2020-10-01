@@ -11,6 +11,7 @@
     color: black;
     text-align: center;
     transition: all 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .search-button:hover {
@@ -23,6 +24,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 30px;
 }
 
 .search-input {
@@ -32,6 +34,7 @@
     border: 2.5px solid #555555;
     border-radius: 0.35em;
     transition: all 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .search-input:focus {
@@ -44,7 +47,7 @@
     border: 2px solid #000000;
 }
 
-@media all and (max-width: 20em) {
+@media all and (max-width: 600px) {
     .search-button {
         display: block;
         margin: 0.4em auto;

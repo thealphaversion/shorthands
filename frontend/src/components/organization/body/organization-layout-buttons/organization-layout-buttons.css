@@ -1,0 +1,18 @@
+/* buttons to change body layout */
+.organization-body-layout-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px 12.5vw 0px 12.5vw;
+    font-size: 1rem;
+}
+
+.organization-body-layout-button {
+    margin: 0px 5px;
+    padding: 5px 10px;
+    background-color: #000;
+    color: white;
+    border-radius: 8px;
+    transition: all 0.2s;
+    text-decoration: none;
+}

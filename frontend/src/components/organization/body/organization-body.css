@@ -1,0 +1,51 @@
+/* when no shorts are available */
+.organization-body-empty {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.organization-body-search-result-empty {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    flex-direction: column;
+    color: black;
+}
+
+.all-shorts-button {
+    display: inline-block;
+    background-color: rgb(252, 252, 252);
+    border: 2px solid black;
+    margin: 20px 0px;
+    padding: 2px 15px;
+    border-radius: 0.35em;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-size: 1.15rem;
+    font-weight: 300;
+    color: black;
+    text-align: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.all-shorts-button:hover {
+    color: white;
+    background-color: black;
+    text-decoration: none;
+}
+
+/* responsiveness */
+@media screen and (max-width: 1024px) {
+    .organization-body-empty {
+        text-align: center;
+        font-size: 1.2rem;
+        margin: 0px 20px;
+    }
+}

@@ -1,7 +1,10 @@
 .shorthand-card {
-    padding: 20px 35px;
-    background-color: white;
-    border-radius: 12px;
+    flex: 1 1 40%;
+    margin: 0.8em 0.5em 0.8em 0.5em;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: all 0.2s;
 }
 
 .shorthand-card-title {
@@ -10,6 +13,44 @@
 
 .shorthand-card-description {
     font-size: 1.25rem;
+}
+
+.shorthand-card-vote {
+    padding-top: 10px;
+    font-size: 1.2rem;
+}
+
+.shorthand-card-icon {
+    font-size: 1.5rem;
+}
+
+.shorthand-card-icon-btn-up {
+    background-color: white;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    padding: 5px 10px 5px 10px;
+    border-radius: 36px;
+    transition: all 0.2s;
+}
+
+.shorthand-card-icon-btn-up:hover {
+    background-color: rgba(160, 160, 160, 0.5);
+}
+
+.shorthand-card-icon-btn-down {
+    background-color: white;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    margin-left: 1rem;
+    padding: 5px 10px 5px 10px;
+    border-radius: 36px;
+    transition: all 0.2s;
+}
+
+.shorthand-card-icon-btn-down:hover {
+    background-color: rgba(160, 160, 160, 0.5);
 }
 
 /* responsiveness */
